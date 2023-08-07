@@ -6,9 +6,9 @@ const app = express();
 app.use(express.json());
 
 app.post("/users", async (req, res) => {
-  const { name, email, role } = req.body;
+  const { first_name, last_name, email, role } = req.body;
   try {
-    const user = await Users.create({ name, email, role });
+    const user = await Users.create({ first_name, last_name, email, role });
     return res.json(user);
   } catch (error) {
     console.log(error);
@@ -18,6 +18,6 @@ app.post("/users", async (req, res) => {
 
 app.listen({ port: 5000 }, async () => {
   console.log("Server up on http://localhost:5000");
-  await sequelize.sync({ force: true });
-  console.log("Database Synced");
+  await sequelize.authenticate();
+  console.log("Database Connected");
 });
