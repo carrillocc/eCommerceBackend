@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { sequelize, Users } = require("./models");
+const { sequelize, users } = require("./models");
 
 const app = express();
 app.use(express.json());
@@ -8,11 +8,22 @@ app.use(express.json());
 app.post("/users", async (req, res) => {
   const { first_name, last_name, email, role } = req.body;
   try {
-    const user = await Users.create({ first_name, last_name, email, role });
+    const user = await users.create({ first_name, last_name, email, role });
     return res.json(user);
   } catch (error) {
     console.log(error);
     return res.status(500).json(error);
+  }
+});
+
+app.get("/users", async (req, res) => {
+  try {
+    const usersList = await users.findAll();
+
+    return res.json(usersList);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Something went wrong" });
   }
 });
 
