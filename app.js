@@ -41,8 +41,8 @@ app.get("/users/:uuid", async (req, res) => {
   }
 });
 
-app.listen({ port: 5000 }, async () => {
-  console.log("Server up on http://localhost:5000");
+app.listen({ port: 5001 }, async () => {
+  console.log("Server up on http://localhost:5001");
   await sequelize.authenticate();
   console.log("Database Connected");
 });
