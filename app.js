@@ -32,9 +32,24 @@ app.get("/users/:uuid", async (req, res) => {
   try {
     const user = await users.findOne({
       where: { uuid },
+      // include: "posts",
     });
 
     return res.json(user);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Something went wrong" });
+  }
+});
+
+app.delete("/users/:uuid", async (req, res) => {
+  const uuid = req.params.uuid;
+  try {
+    const user = await users.findOne({
+      where: { uuid },
+    });
+    await user.destroy();
+    return res.json({ message: "User deleted" });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ error: "Something went wrong" });
@@ -56,7 +71,7 @@ app.post("/posts", async (req, res) => {
 
 app.get("/posts", async (req, res) => {
   try {
-    const postsList = await posts.findAll();
+    const postsList = await posts.findAll({ include: users });
     return res.json(postsList);
   } catch (error) {
     console.log(error);
