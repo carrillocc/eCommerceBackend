@@ -79,6 +79,43 @@ app.get("/posts", async (req, res) => {
   }
 });
 
+app.get("/posts/:uuid", async (req, res) => {
+  const uuid = req.params.uuid;
+  try {
+    const post = await posts.findOne({
+      where: { uuid },
+    });
+    return res.json(post);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Something went wrong" });
+  }
+});
+
+app.delete("/posts/:uuid", async (req, res) => {
+  const uuid = req.params.uuid;
+  try {
+    const post = await posts.findOne({
+      where: { uuid },
+    });
+    await post.destroy();
+    return res.json({ message: "Post deleted" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Something went wrong" });
+  }
+});
+// app.delete("/posts/uuid", async (req, res) => {
+//   try {
+//     const posts = await posts.findOne({ where: { uuid } });
+//     await posts.destroy();
+//     return res.json({ message: "Post deleted" });
+//   } catch (error) {
+//     console.log(error);
+//     return res.status(500).json({ error: "Something went wrong" });
+//   }
+// });
+
 app.listen({ port: 5001 }, async () => {
   console.log("Server up on http://localhost:5001");
   await sequelize.authenticate();
