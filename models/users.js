@@ -8,10 +8,10 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
 
-    static associate({ posts }) {
-      // define association here
-      this.hasMany(posts, { foreignKey: "userId" });
-    }
+    // static associate({ posts }) {
+    //   // define association here
+    //   this.hasMany(posts, { foreignKey: "userId" });
+    // }
 
     toJSON() {
       return { ...this.get(), id: undefined };
