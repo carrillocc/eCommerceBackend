@@ -17,7 +17,7 @@ router.post("/", async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    const postsList = await posts.findAll({ include: users });
+    const postsList = await posts.scope("includeUser").findAll();
     return res.json(postsList);
   } catch (error) {
     console.log(error);
