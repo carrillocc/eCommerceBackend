@@ -1,9 +1,11 @@
 const express = require("express");
 
-const { sequelize, users, posts } = require("./models");
+const { sequelize, users, posts, products } = require("./models");
 
 const app = express();
 app.use(express.json());
+
+//Users--------------
 
 app.post("/users", async (req, res) => {
   const { first_name, last_name, email, role } = req.body;
@@ -56,6 +58,8 @@ app.delete("/users/:uuid", async (req, res) => {
   }
 });
 
+//Posts---------------------
+
 app.post("/posts", async (req, res) => {
   const { userUuid, body } = req.body;
   try {
@@ -105,6 +109,66 @@ app.delete("/posts/:uuid", async (req, res) => {
     return res.status(500).json({ error: "Something went wrong" });
   }
 });
+
+//Products------------
+
+app.post("/products", async (req, res) => {
+  const { productTitle, productDescription, productPrice, productQty } =
+    req.body;
+
+  try {
+    const product = await products.create({
+      productTitle,
+      productDescription,
+      productPrice,
+      productQty,
+    });
+    return res.json(product);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
+  }
+});
+
+app.get("/products", async (req, res) => {
+  try {
+    const productList = await products.findAll();
+    return res.json(productList);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Something went wrong" });
+  }
+});
+
+app.get("/products/:uuid", async (req, res) => {
+  const uuid = req.params.uuid;
+  try {
+    const product = await products.findOne({
+      where: { uuid },
+    });
+    return res.json(product);
+  } catch (error) {
+    console.log(error);
+    return res.status.json({ error: "Something went wrong" });
+  }
+});
+
+app.delete("/products/:uuid", async (req, res) => {
+  const uuid = req.params.uuid;
+  try {
+    const product = await products.findOne({
+      where: { uuid },
+    });
+    await product.destroy();
+
+    return res.json({ message: "Product deleted" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Something went wrong" });
+  }
+});
+
+//Listen
 
 app.listen({ port: 5001 }, async () => {
   console.log("Server up on http://localhost:5001");
