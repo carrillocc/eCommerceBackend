@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { sequelize, users, posts, products } = require("./models");
+const { sequelize, users, posts, products, orders } = require("./models");
 
 const app = express();
 app.use(express.json());
@@ -113,8 +113,13 @@ app.delete("/posts/:uuid", async (req, res) => {
 //Products------------
 
 app.post("/products", async (req, res) => {
-  const { productTitle, productDescription, productPrice, productQty } =
-    req.body;
+  const {
+    productTitle,
+    productDescription,
+    productPrice,
+    productQty,
+    productImg,
+  } = req.body;
 
   try {
     const product = await products.create({
@@ -122,6 +127,7 @@ app.post("/products", async (req, res) => {
       productDescription,
       productPrice,
       productQty,
+      productImg,
     });
     return res.json(product);
   } catch (error) {
@@ -168,6 +174,27 @@ app.delete("/products/:uuid", async (req, res) => {
   }
 });
 
+//Orders-----------------------
+// app.post("/orders", async (req, res) => {
+//   const { userId, productId, quantity, total } = req.body;
+
+//   try {
+//     const user = await users.findOne({ where: { uuid: userId } });
+//     const product = await products.findOne({ where: { uuid: productId } });
+
+//     const order = await orders.create({
+//       userId: user.id,
+//       productId: product.id,
+//       quantity,
+//       total,
+//     });
+
+//     return res.json(order);
+//   } catch (error) {
+//     console.log(error);
+//     return res.status(500).json(error);
+//   }
+// });
 //Listen
 
 app.listen({ port: 5001 }, async () => {

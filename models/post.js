@@ -25,6 +25,10 @@ module.exports = (sequelize, DataTypes) => {
       body: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          notNull: { msg: "Include a body in the Post" },
+          notEmpty: { msg: "Post body must not be empty" },
+        },
       },
       userId: {
         type: DataTypes.INTEGER,

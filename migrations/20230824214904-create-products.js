@@ -35,6 +35,10 @@ module.exports = {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
+      productImg: {
+        type: DataTypes.BLOB,
+        allowNull: false,
+      },
 
       createdAt: {
         allowNull: false,
