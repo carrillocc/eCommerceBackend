@@ -65,7 +65,7 @@ module.exports = (sequelize, DataTypes) => {
         includeUser: {
           include: "user",
         },
-        includeProduct: {
+        includeProducts: {
           include: "product",
         },
       },
