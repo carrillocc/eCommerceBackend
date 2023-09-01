@@ -8,13 +8,21 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
+
     static associate({ users, products }) {
       // define association here
       //asociation will reference users id and product id
 
-      this.belongsTo(users, { foreignKey: "id" });
-
-      this.belongsTo(products, { foreignKey: "id" });
+      this.belongsTo(users, { foreignKey: "id", as: "user" });
+      this.belongsTo(products, { foreignKey: "id", as: "product" });
+    }
+    toJSON() {
+      return {
+        ...this.get(),
+        id: undefined,
+        userId: undefined,
+        productId: undefined,
+      };
     }
   }
   orders.init(
@@ -52,7 +60,15 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       tableName: "orders",
-      modelName: "Orders",
+      // modelName: "Orders",
+      scopes: {
+        includeUser: {
+          include: "user",
+        },
+        includeProduct: {
+          include: "product",
+        },
+      },
     }
   );
   return orders;
