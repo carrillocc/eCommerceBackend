@@ -7,7 +7,7 @@ const { sequelize, products } = require("./models");
 const usersRouter = require("./routes/users");
 const postsRouter = require("./routes/posts");
 const productsRouter = require("./routes/products");
-// const ordersRouter = require("./routes/orders");
+const ordersRouter = require("./routes/orders");
 
 //Users--------------
 app.use("/users", usersRouter);
@@ -19,7 +19,7 @@ app.use("/posts", postsRouter);
 app.use("/products", productsRouter);
 
 //Orders------------
-// app.use("/orders", ordersRouter);
+app.use("/orders", ordersRouter);
 
 //Listen
 app.listen({ port: 5001 }, async () => {
