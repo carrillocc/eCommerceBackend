@@ -28,7 +28,7 @@ router.get("/", async (req, res) => {
 router.get("/:uuid", async (req, res) => {
   const uuid = req.params.uuid;
   try {
-    const post = await posts.findOne({
+    const post = await posts.scope("includeUser").findOne({
       where: { uuid },
     });
     return res.json(post);
