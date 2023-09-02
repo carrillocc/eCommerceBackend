@@ -9,9 +9,9 @@ router.post("/", async (req, res) => {
     const post = await posts.create({ body, userId: user.id });
 
     return res.json(post);
-  } catch (err) {
-    console.log(err);
-    return res.status(500).json(err);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
   }
 });
 

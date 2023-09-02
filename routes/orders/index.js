@@ -25,7 +25,7 @@ router.post("/", async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    const ordersList = await orders.scope("includeProduct").findAll();
+    const ordersList = await orders.scope("includeProducts").findAll();
     return res.json(ordersList);
   } catch (error) {
     console.log(error);

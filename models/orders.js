@@ -1,6 +1,6 @@
 "use strict";
 const { Model } = require("sequelize");
-// const products = require("./products");
+const products = require("./products");
 module.exports = (sequelize, DataTypes) => {
   class orders extends Model {
     /**
@@ -13,8 +13,8 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       //asociation will reference users id and product id
 
-      this.belongsTo(users, { foreignKey: "id", as: "user" });
-      this.belongsTo(products, { foreignKey: "id", as: "product" });
+      this.belongsTo(users, { foreignKey: "userId", as: "user" });
+      this.belongsTo(products, { foreignKey: "productId", as: "product" });
     }
     toJSON() {
       return {
