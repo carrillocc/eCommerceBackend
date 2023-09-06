@@ -1,11 +1,21 @@
 const express = require("express");
 const router = express.Router();
+const bcrypt = require("bcrypt");
+const SALT_COUNT = 10;
 const { users } = require("../../models");
 
 router.post("/", async (req, res) => {
-  const { first_name, last_name, email, role } = req.body;
+  const { first_name, last_name, email, password, role } = req.body;
+  const hashedPassword = await bcrypt.hash(password, SALT_COUNT);
+
   try {
-    const user = await users.create({ first_name, last_name, email, role });
+    const user = await users.create({
+      first_name,
+      last_name,
+      email,
+      password: hashedPassword,
+      role,
+    });
     return res.json(user);
   } catch (error) {
     console.log(error);
@@ -13,6 +23,7 @@ router.post("/", async (req, res) => {
   }
 });
 
+//get all
 router.get("/", async (req, res) => {
   try {
     const usersList = await users.findAll();
@@ -24,6 +35,7 @@ router.get("/", async (req, res) => {
   }
 });
 
+//get by id
 router.get("/:uuid", async (req, res) => {
   const uuid = req.params.uuid;
   try {
