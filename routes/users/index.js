@@ -14,8 +14,6 @@ router.post("/", async (req, res) => {
         email,
       },
     });
-    console.log(existingUser, "existingUser");
-
     if (existingUser) {
       return res.status(400).json({ error: "Email already in use" });
     }

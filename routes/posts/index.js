@@ -1,17 +1,31 @@
 const express = require("express");
 const router = express.Router();
 const { users, posts } = require("../../models");
+const jwt = require("jsonwebtoken");
+const { JWT_SECRET } = process.env;
 
 router.post("/", async (req, res) => {
   const { userUuid, body } = req.body;
   try {
-    const user = await users.findOne({ where: { uuid: userUuid } });
-    const post = await posts.create({ body, userId: user.id });
+    if (req.headers.authorization) {
+      const tokenParts = req.headers.authorization.split(" ");
+      const token = tokenParts[tokenParts.length - 1]; // Extract the token
+      jwt.verify(token, process.env.JWT_SECRET, async (error, decoded) => {
+        if (error) {
+          // Handle token verification error
+          return res.status(401).json({ error: "Invalid token" });
+        } // Token is valid, you can access the decoded payload
 
-    return res.json(post);
+        const user = await users.findOne({ where: { uuid: userUuid } });
+        const post = await posts.create({ body, userId: user.id });
+        return res.json(post);
+      });
+    } else {
+      return res.status(401).json({ error: "Token needed" });
+    }
   } catch (error) {
-    console.log(error);
-    return res.status(500).json(error);
+    console.error(error);
+    return res.status(500).json({ error: "Something went wrong" });
   }
 });
 
