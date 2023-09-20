@@ -7,5 +7,11 @@
     "pg": "^8.11.1",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.32.1"
+  },
+  "scripts": {
+    "start": "node app.js", // Script to start your server
+    "build": "npm install", // Add any build steps here (e.g., compiling TypeScript)
+    "test": "mocha" // Add test-related scripts if needed
   }
 }
+
