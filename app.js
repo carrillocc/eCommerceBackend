@@ -1,48 +1,33 @@
 const express = require("express");
-
-const { sequelize, users } = require("./models");
-
 const app = express();
 app.use(express.json());
 
-app.post("/users", async (req, res) => {
-  const { first_name, last_name, email, role } = req.body;
-  try {
-    const user = await users.create({ first_name, last_name, email, role });
-    return res.json(user);
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json(error);
-  }
-});
+const { sequelize } = require("./models");
 
-app.get("/users", async (req, res) => {
-  try {
-    const usersList = await users.findAll();
+const usersRouter = require("./routes/users");
+const postsRouter = require("./routes/posts");
+const productsRouter = require("./routes/products");
+const ordersRouter = require("./routes/orders");
+const loginRouter = require("./routes/login");
 
-    return res.json(usersList);
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ error: "Something went wrong" });
-  }
-});
+//Users--------------
+app.use("/users", usersRouter);
 
-app.get("/users/:uuid", async (req, res) => {
-  const uuid = req.params.uuid;
-  try {
-    const user = await users.findOne({
-      where: { uuid },
-    });
+//Posts---------------------
+app.use("/posts", postsRouter);
 
-    return res.json(user);
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ error: "Something went wrong" });
-  }
-});
+//Products------------
+app.use("/products", productsRouter);
 
-app.listen({ port: 5000 }, async () => {
-  console.log("Server up on http://localhost:5000");
+//Orders------------
+app.use("/orders", ordersRouter);
+
+//Login-------------
+app.use("/login", loginRouter);
+
+//Listen
+app.listen({ port: 5001 }, async () => {
+  console.log("Server up on http://localhost:5001");
   await sequelize.authenticate();
   console.log("Database Connected");
 });

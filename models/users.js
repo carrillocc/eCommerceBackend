@@ -7,11 +7,14 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {
-      // define association here
-    }
+
+    // static associate({ posts }) {
+    //   // define association here
+    //   this.hasMany(posts, { foreignKey: "userId" });
+    // }
+
     toJSON() {
-      return { ...this.get(), id: undefined };
+      return { ...this.get(), id: undefined, password: undefined };
     }
   }
 
@@ -24,18 +27,43 @@ module.exports = (sequelize, DataTypes) => {
       first_name: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          notNull: { msg: "User must have a first name" },
+          notEmpty: { msg: "User first name must not be empty" },
+        },
       },
       last_name: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          notNull: { msg: "User must have a last name" },
+          notEmpty: { msg: "User last name must not be empty" },
+        },
       },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          notNull: { msg: "User must have an email" },
+          notEmpty: { msg: "User email must not be empty" },
+          isEmail: { msg: "Email must be a valid email address" },
+        },
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notNull: { msg: "User must have a password" },
+          notEmpty: { msg: "User password must not be empty" },
+        },
       },
       role: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          notNull: { msg: "User must have a role" },
+          notEmpty: { msg: "User role must not be empty" },
+        },
       },
     },
     {
