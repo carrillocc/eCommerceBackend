@@ -36,3 +36,62 @@ export const fetchPosts = async () => {
     );
   }
 };
+
+//fetch products
+
+export const fetchProducts = async () => {
+  try {
+    const response = await fetch(`${URL}/products`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => response.json());
+
+    return response;
+  } catch (error) {
+    console.error(
+      "There was an error fetching the products in the api call",
+      error
+    );
+  }
+};
+
+//fetch order
+
+export const fetchOrders = async () => {
+  try {
+    const response = await fetch(`${URL}/orders`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => response.json());
+
+    return response;
+  } catch (error) {
+    console.error(
+      "There was an error fetching the orders in the api call",
+      error
+    );
+  }
+};
+
+//login user
+export const loginAdminUsers = async (email, password) => {
+  try {
+    const response = await fetch(`${URL}/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error("There was an error logging in the user", error);
+    throw error;
+  }
+};
