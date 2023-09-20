@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const { users, products, orders } = require("../../models");
+const jwt = require("jsonwebtoken");
+const { JWT_SECRET } = process.env;
 
 router.post("/", async (req, res) => {
   const { userId, productId, quantity, total } = req.body;
@@ -32,11 +34,12 @@ router.get("/", async (req, res) => {
     return res.status(500).json({ error: "Something went wrong" });
   }
 });
+// do we need to make sure that only the user logged in has access to his order.
 
 router.get("/:uuid", async (req, res) => {
   const uuid = req.params.uuid;
   try {
-    const order = await orders.scope("includeProducts").findOne({
+    const order = await orders.scope("includeUserandProducts").findOne({
       where: { uuid },
     });
     return res.json(order);

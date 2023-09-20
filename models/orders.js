@@ -68,6 +68,9 @@ module.exports = (sequelize, DataTypes) => {
         includeProducts: {
           include: "product",
         },
+        includeUserandProducts: {
+          include: ["user", "product"],
+        },
       },
     }
   );
