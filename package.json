@@ -10,7 +10,7 @@
     "sequelize": "^6.32.1"
   },
   "scripts": {
-    "start": "node app.js",
+    "start": "node run-migrations.js && node app.js",
     "migrate": "node run-migrations.js",
     "build": "npm install"
   }
