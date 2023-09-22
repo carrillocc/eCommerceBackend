@@ -13,5 +13,8 @@
     "start": "node run-migrations.js && node app.js",
     "migrate": "node run-migrations.js",
     "build": "npm install"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.6.1"
   }
 }
