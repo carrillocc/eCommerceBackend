@@ -26,7 +26,8 @@ app.use("/orders", ordersRouter);
 app.use("/login", loginRouter);
 
 //Listen
-app.listen({ port: 5001 }, async () => {
+const PORT = process.env.PORT;
+app.listen({ port: PORT || 5001 }, async () => {
   console.log("Server up on http://localhost:5001");
   await sequelize.authenticate();
   console.log("Database Connected");
