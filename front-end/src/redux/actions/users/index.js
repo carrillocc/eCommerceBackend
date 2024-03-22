@@ -18,16 +18,22 @@ export const getUsersData = () => {
   return async (dispatch) => {
     dispatch(getUsersRequest());
     try {
-      //making http request to server
-      const response = await axios.get(
-        "https://ecommerceweb-emk3.onrender.com/users"
-      );
-      console.log("response", response);
+      // Define your headers
+      const headers = {
+        Authorization: "Bearer YOUR_ACCESS_TOKEN",
+        "Content-Type": "application/json",
+      };
 
-      //dispatching action to update redux store
+      // Making HTTP request to the server with headers
+      const response = await axios.get(
+        "https://ecommerceweb-emk3.onrender.com/users",
+        { headers: headers } // Pass headers here
+      );
+
+      // Dispatching action to update Redux store
       dispatch(getUsersSuccess(response.data));
     } catch (error) {
-      //dispatch the action to handle an error
+      // Dispatch the action to handle an error
       console.log("error here");
       dispatch(getUsersFailure(error.message));
     }
