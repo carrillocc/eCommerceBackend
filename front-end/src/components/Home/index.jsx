@@ -8,11 +8,19 @@ export const Home = () => {
   const { count } = useSelector((state) => state.counter);
   const [users, setUsers] = useState([]);
   useEffect(() => {
-    //Runs only on the first render
+    const fetchData = async () => {
+      try {
+        const userData = await dispatch(getUsersData());
+        setUsers(userData);
+        console.log("users", userData); // Log the fetched users
+      } catch (error) {
+        console.log("Error fetching users:", error);
+      }
+    };
 
-    setUsers(dispatch(getUsersData()));
-    console.log("users", users);
+    fetchData();
   }, []);
+  console.log("users", users);
   return (
     <>
       <div>
