@@ -7,12 +7,12 @@ export const Home = () => {
   const dispatch = useDispatch();
   const { count } = useSelector((state) => state.counter);
   const [users, setUsers] = useState([]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const userData = await dispatch(getUsersData());
         setUsers(userData);
-        console.log("users", userData); // Log the fetched users
       } catch (error) {
         console.log("Error fetching users:", error);
       }
@@ -20,7 +20,7 @@ export const Home = () => {
 
     fetchData();
   }, []);
-  console.log("users", users);
+
   return (
     <>
       <div>
@@ -28,6 +28,10 @@ export const Home = () => {
         <button onClick={() => dispatch(increment())}>Increment</button>
         <button onClick={() => dispatch(decrement())}>Decrement</button>
       </div>
+      <div>Users:::</div>
+      {users.map((u) => (
+        <div key={u.uuid}>{u.first_name}</div>
+      ))}
     </>
   );
 };
