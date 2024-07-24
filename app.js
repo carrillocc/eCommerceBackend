@@ -1,6 +1,19 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
+
 app.use(express.json());
+// app.use(cors({ origin: "http://localhost:3000" }));
+app.use(cors({ origin: "*" }));
+
+// app.use(
+//   cors({
+//     origin: "*",
+//     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//     preflightContinue: false,
+//     optionsSuccessStatus: 204,
+//   })
+// );
 
 const { sequelize } = require("./models");
 
