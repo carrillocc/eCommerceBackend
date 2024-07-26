@@ -13,18 +13,22 @@ export const Home = () => {
 
   return (
     <>
-      <div>
-        <button onClick={() => dispatch(increment())}>Increment</button>
-        <button onClick={() => dispatch(decrement())}>Decrement</button>
-      </div>
-      <Typography.Title>Henlo</Typography.Title>
-      <div>Users:::</div>
+      <Typography.Title level={2}>Henlo World</Typography.Title>
       {loading ? (
         <p>Loading...</p>
       ) : errors ? (
         <p>Error: {errors}</p>
       ) : (
-        users.map((u) => <div key={u.uuid}>{u.first_name}</div>)
+        <>
+          <Typography.Title level={3}>
+            Below is a list of users
+          </Typography.Title>
+          <ol>
+            {users.map((u) => {
+              return <li key={u.uuid}>{u.first_name}</li>;
+            })}
+          </ol>
+        </>
       )}
     </>
   );
