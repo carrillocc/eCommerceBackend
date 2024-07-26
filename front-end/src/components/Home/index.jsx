@@ -1,37 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { increment, decrement } from "../../redux/actions/example";
-import { getUsersData } from "../../redux/actions/users";
+import { getUsers } from "../../redux/actions/users";
+import { Typography } from "antd";
 
 export const Home = () => {
   const dispatch = useDispatch();
-  const { count } = useSelector((state) => state.counter);
-  const [users, setUsers] = useState([]);
+  const { users, loading, errors } = useSelector((state) => state.users);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const userData = await dispatch(getUsersData());
-        setUsers(userData);
-      } catch (error) {
-        console.log("Error fetching users:", error);
-      }
-    };
-
-    fetchData();
+    dispatch(getUsers());
   }, []);
 
   return (
     <>
       <div>
-        <p>Count: {count}</p>
         <button onClick={() => dispatch(increment())}>Increment</button>
         <button onClick={() => dispatch(decrement())}>Decrement</button>
       </div>
+      <Typography.Title>Henlo</Typography.Title>
       <div>Users:::</div>
-      {users.map((u) => (
-        <div key={u.uuid}>{u.first_name}</div>
-      ))}
+      {loading ? (
+        <p>Loading...</p>
+      ) : errors ? (
+        <p>Error: {errors}</p>
+      ) : (
+        users.map((u) => <div key={u.uuid}>{u.first_name}</div>)
+      )}
     </>
   );
 };

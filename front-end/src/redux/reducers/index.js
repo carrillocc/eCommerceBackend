@@ -1,12 +1,7 @@
 import { combineReducers } from "redux";
-import { counterReducer } from "./counterExample";
-import { userReducer } from "./userExample";
+import { getUsersReducer } from "./users/getUsersReducer";
 
-const rootReducer = combineReducers({
-  // Define your reducers here
-  counter: counterReducer,
-  user: userReducer,
+export const rootReducer = combineReducers({
+  users: getUsersReducer,
   // Add more reducers as needed
 });
-
-export default rootReducer;
