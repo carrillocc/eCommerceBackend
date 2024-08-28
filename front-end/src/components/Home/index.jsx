@@ -13,7 +13,7 @@ export const Home = () => {
 
   return (
     <>
-      <Typography.Title level={2}>Henlo World</Typography.Title>
+      <Typography.Title level={2}>Henlo World, Chris was here!</Typography.Title>
       {loading ? (
         <p>Loading...</p>
       ) : errors ? (
