@@ -1,29 +1,20 @@
 import { takeLatest, put, call } from "redux-saga/effects";
+import axios from "axios";
 import {
+  GET_USERS_FAILURE,
   GET_USERS_REQUEST,
   GET_USERS_SUCCESS,
-  GET_USERS_FAILURE,
-  GET_USERS_CANCELLED,
-  API_URL_GET_USERS,
-} from "src/redux/constants/users";
+} from "../../constants";
 
-// Define a function to fetch user data from your API
 function* fetchUserData() {
   try {
-    // Call your API function to fetch user data
-    const userData = yield call(API_URL_GET_USERS); // Make sure to replace with your actual API function.
-
-    // Dispatch a success action with the fetched user data
-    yield put({ type: GET_USERS_SUCCESS, payload: userData });
+    const response = yield call(axios.get, "http://localhost:5001/users");
+    yield put({ type: GET_USERS_SUCCESS, payload: response.data });
   } catch (error) {
-    // Dispatch a failure action in case of an error
-    yield put({ type: GET_USERS_FAILURE, error });
+    yield put({ type: GET_USERS_FAILURE, payload: error.message });
   }
 }
 
-// Define the saga to watch for GET_USERS_REQUEST action
-function* getUserSaga() {
-  yield takeLatest(GET_USERS_REQUEST, API_URL_GET_USERS);
+export function* getUserSaga() {
+  yield takeLatest(GET_USERS_REQUEST, fetchUserData);
 }
-
-export default getUserSaga;

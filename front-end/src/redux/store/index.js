@@ -1,10 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
-import rootReducer from "../reducers";
+import createSagaMiddleware from "redux-saga";
+import { rootReducer } from "../reducers";
+import { rootSaga } from "../sagas";
+const sagaMiddleware = createSagaMiddleware();
 
-// Add the Redux DevTools Extension
 export const store = configureStore({
   reducer: rootReducer,
-  devTools:
-    window.__REDUX_DEVTOOLS_EXTENSION__ &&
-    window.__REDUX_DEVTOOLS_EXTENSION__(),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      thunk: false,
+    }).concat(sagaMiddleware),
 });
+
+sagaMiddleware.run(rootSaga);
